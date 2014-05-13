@@ -3,9 +3,9 @@
 
 # Builder
 # Encapsula o processo de criação de objetos complexos. [HEAD FIRST]
-# Possibilita a criação de objetos em um processo variável, flexível e multi-passo. [HEAD FIRST]
+# Possibilita a criação de objetos em um processo variável, flexível e passo-a-passo. [HEAD FIRST]
 # Possibilita a utilização de interface fluente na criação de objeto. [GUERRA]
-
+# Em uma palavra: *flexível*
 
 
 
@@ -93,7 +93,8 @@ class Invoker(object):
   def __init__(self, taskName, task, timeout, trials, pause, time_unit):
 
 
-
+# Considerações
+# Fábricas estáticas e construtores possuem uma limitação: eles não escalam bem para um grande número de parâmetros opcionais [EFFECTIVE JAVA]. 
 
 
 
@@ -180,6 +181,23 @@ invoker.pause = 1
 # Considerações
 # muito feio, neh?
 # mais algum problema?
+
+# From [EFFECTIVE JAVA]:
+# Unfortunately, the JavaBeans pattern has serious disadvantages of its own.
+# Because construction is split across multiple calls, **a JavaBean may be in an
+# inconsistent state partway through its construction**. The class does not have
+# the option of enforcing consistency merely by checking the validity of the
+# construction parameters. Attempting to use an object when it's in an inconsistent
+# state may cause failures that are far removed from the code containing the bug, hence
+# difficult to debug. A related disadvantage is that **the JavaBeans pattern precludes
+# the possibility of making a class immutable**, and requires added effort on the part 
+# of the programmer to ensure thread safety.
+
+# Não sei se no Python faz tanto sentido se preocupar em "proteger as invariantes do objeto"
+# ou se preocupar com "imutabilidade.
+# Mas de qualquer forma podemos dizer que nessa solução não fica claro para o cliente como
+# a classe espera que seus objetos sejam construídos.
+# Falta expressividade.
 
 
 
@@ -274,6 +292,14 @@ invoker = InvokerBuilder("fatorial", task, 1).trials(3).pause(1).time_unit('min'
 # funciona, mas... será que isso é pythonico?
 # aliás, interface fluente faz sentido em Python?
 # Mas vamos ver outras alternativas!
+
+# From [EFFECTIVE JAVA]:
+# The client code is easy to write, and more importantly, to read.
+# **The Builder pattern simulates named optional parameters**
+# as found in Ada and Python. 
+# Like a constructor, a builder can impose invariants on its parameters.
+
+
 
 
 
@@ -451,7 +477,8 @@ class Invoker(object):
 
 
 # Código cliente
-invoker = Invoker("quadrado", f, 100, trials=3, pause=2)
+task = lambda : 5*4*3*2
+invoker = Invoker("fat", task, 100, trials=3, pause=2)
 
 
 
@@ -479,7 +506,7 @@ invoker = Invoker("quadrado", f, 100, trials=3, pause=2)
 # Considerações
 # Perda de expressividade
 # Documentação fica mais complicada (?)
-# Cliente ficou igual a solução anterior.
+# Cliente ficou igual a solução anterior
 # Parece não ter vantagem sobre os argumentos opcionais (nesse caso...)
 
 
@@ -519,8 +546,8 @@ Votacao.objects.filter(proposicao__casa_legislativa=casa).filter(data__lte=self.
 
 
 
-# Além de usar o kwargs parece ser um bom exemplo de Builder.
-# Uma pequena diferença para o padrão: não usa o método "build()" final!
+# Além de usar o kwargs, a construção de queries do Django parece ser um bom exemplo de Builder.
+# Uma pequena diferença para o padrão: não usa o método "build()" no final!
 
 
 
@@ -530,20 +557,6 @@ Votacao.objects.filter(proposicao__casa_legislativa=casa).filter(data__lte=self.
 
 
 
-
-
-
-
-# Considerações finais
-
-# Até agora consideramos o Builder como uma forma de "instanciar o objeto de uma vez".
-# Mas ele também possui uma outra motivação mais profunda, ele ajuda a criar objetos imutáveis.
-# Objetos imutáveis tem suas vantagens [EFFECTIVE JAVA]:
-#   Vide programação funcional: totalmente baseada na imutabilidade dos objetos.
-#   Imutabilidade favorece concorrência.
-# Mas...... considerando o "não-encapsulamento" do Python, faz sentido usar o Builder para esse propósito?
-# Faz sentido se preocupar com imutabilidade de objetos no Python?
-# TODO encontrar exemplo em que estado inicial do objeto seria inválido
 
 
 
@@ -568,7 +581,7 @@ Votacao.objects.filter(proposicao__casa_legislativa=casa).filter(data__lte=self.
 # Bibliografia
 # [HEAD FIRST] Eric Freeman & Elisabeth Freeman, Cap 14. Appendix: Leftover Pattern. Em: Head First Design Patterns. O'Reilly. 2004
 # [GUERRA] Eduardo Guerra, Cap 6. Estratégias de Criação de Objetos. Em: "Design Patterns com Java. Projeto Orientado a Objetos guiado por Padrões". Casa do Código. 2013
-# [EFFECTIVE JAVA]
+# [EFFECTIVE JAVA] Joshua Bloch, Cap 2. Creating and Destroying Objects. Em: "Effective Java", 2nd edition. Addison Wesley. 2008
 
 
 
