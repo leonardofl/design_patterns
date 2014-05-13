@@ -478,8 +478,9 @@ invoker = Invoker("quadrado", f, 100, trials=3, pause=2)
 
 # Considerações
 # Perda de expressividade
-# documentação fica mais complicada (?)
-# Parece não ter vantagem sobre os argumentos opcionais
+# Documentação fica mais complicada (?)
+# Cliente ficou igual a solução anterior.
+# Parece não ter vantagem sobre os argumentos opcionais (nesse caso...)
 
 
 
@@ -491,13 +492,35 @@ invoker = Invoker("quadrado", f, 100, trials=3, pause=2)
 
 
 
-# TODO mostrar exemplo de kargs da query do django
 
 
 
 
 
+# Mas há casos em que kwargs têm vantagem sobre argumentos opcionais.
+# Situação: quando o nome do parâmetro é variável!
+# Exemplo: construção de queries no Django.
+# Exemplos retirados do Radar Parlamentar: https://github.com/leonardofl/radar_parlamentar
 
+
+Parlamentar.objects.filter(nome=nome_dep)
+
+legs = Legislatura.objects.filter(parlamentar__nome=nome_parlamentar)
+
+Partido.objects.filter(legislatura__casa_legislativa=self).distinct()
+
+votacoes = votacoes.filter(data__gte=ini)
+
+CasaLegislativa.objects.filter(nome_curto='cdep').count()
+
+Legislaturas.objects.filter(partido=partido).select_related('id', 'localidade', 'partido__nome','parlamentar__nome')
+
+Votacao.objects.filter(proposicao__casa_legislativa=casa).filter(data__lte=self.fim).order_by('data')
+
+
+
+# Além de usar o kwargs parece ser um bom exemplo de Builder.
+# Uma pequena diferença para o padrão: não usa o método "build()" final!
 
 
 
