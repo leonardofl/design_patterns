@@ -2,10 +2,10 @@
 
 
 # Builder
-# Encapsula o processo de cria√ß√£o de objetos complexos. [HEAD FIRST]
-# Possibilita a cria√ß√£o de objetos em um processo vari√°vel, flex√≠vel e passo-a-passo. [HEAD FIRST]
-# Possibilita a utiliza√ß√£o de interface fluente na cria√ß√£o de objeto. [GUERRA]
-# Em uma palavra: *flex√≠vel*
+# Encapsula o processo de criaÁ„o de objetos complexos. [HEAD FIRST]
+# Possibilita a criaÁ„o de objetos em um processo vari·vel, flexÌvel e passo-a-passo. [HEAD FIRST]
+# Possibilita a utilizaÁ„o de interface fluente na criaÁ„o de objeto. [GUERRA]
+# Em uma palavra: *flexÌvel*
 
 
 
@@ -33,7 +33,7 @@
 
 
 
-# Cen√°rio espec√≠fico: cria√ß√£o de objetos com argumentos opcionais.
+# Cen·rio especÌfico: criaÁ„o de objetos com argumentos opcionais.
 
 
 
@@ -46,7 +46,7 @@ class Invoker(object):
     """
       Argumentos:
         taskName - nome da tarefa 
-        task - fun√ß√£o a ser executada
+        task - funÁ„o a ser executada
         timeout - tempo limite para uma tentativa, em segundos -- int
         trials - quantidade de tentativas, em segundos -- int
         pause - pausa entre as tentativas, em segundos -- int
@@ -60,7 +60,7 @@ class Invoker(object):
     self.time_unit = time_unit
 
   def invoke(self):
-    # faz de conta que t√° usando timeout, trials, pause e time_unit
+    # faz de conta que t· usando timeout, trials, pause e time_unit
     try:
       return self.task()
     except:
@@ -82,8 +82,8 @@ class Invoker(object):
 
 
 
-# Solu√ß√£o 0
-# Explos√£o de __init__'s.
+# SoluÁ„o 0
+# Explos„o de __init__'s.
 
   def __init__(self, taskName, task, timeout):
   def __init__(self, taskName, task, timeout, trials):
@@ -93,8 +93,10 @@ class Invoker(object):
   def __init__(self, taskName, task, timeout, trials, pause, time_unit):
 
 
-# Considera√ß√µes
-# F√°bricas est√°ticas e construtores possuem uma limita√ß√£o: eles n√£o escalam bem para um grande n√∫mero de par√¢metros opcionais [EFFECTIVE JAVA]. 
+# ConsideraÁıes
+# F·bricas est·ticas e construtores possuem uma limitaÁ„o: eles n„o escalam bem para um grande n˙mero de par‚metros opcionais [EFFECTIVE JAVA]. 
+
+# OPS! No Python vc nao pode ter varios inits!
 
 
 
@@ -113,8 +115,8 @@ class Invoker(object):
 
 
 
-# Solu√ß√£o 1
-# Jogar no __init__ s√≥ o que for obrigat√≥rio, e settar o resto linha a linha
+# SoluÁ„o 1
+# Jogar no __init__ sÛ o que for obrigatÛrio, e settar o resto linha a linha
 
 class Invoker:
 
@@ -126,12 +128,12 @@ class Invoker:
     self.taskName = taskName
     self.task = task
     self.timeout = timeout
-    self.trials = DEFAULT_TRIALS
-    self.pause = DEFAULT_PAUSE
-    self.time_unit = DEFAULT_TIME_UNIT
+    self.trials = self.DEFAULT_TRIALS
+    self.pause = self.DEFAULT_PAUSE
+    self.time_unit = self.DEFAULT_TIME_UNIT
 
   def invoke(self):
-    # faz de conta que t√° usando timeout, trials, pause e time_unit
+    # faz de conta que t· usando timeout, trials, pause e time_unit
     try:
       return self.task()
     except:
@@ -155,10 +157,10 @@ class Invoker:
 
 
 
-# C√≥digo cliente
+# CÛdigo cliente
 
 task = lambda : 5*4*3*2
-invoker = InvokerBuilder("fatorial", task, 1)
+invoker = Invoker("fatorial", task, 1)
 invoker.trials = 3
 invoker.pause = 1 
 
@@ -178,7 +180,7 @@ invoker.pause = 1
 
 
 
-# Considera√ß√µes
+# ConsideraÁıes
 # muito feio, neh?
 # mais algum problema?
 
@@ -193,10 +195,10 @@ invoker.pause = 1
 # the possibility of making a class immutable**, and requires added effort on the part 
 # of the programmer to ensure thread safety.
 
-# N√£o sei se no Python faz tanto sentido se preocupar em "proteger as invariantes do objeto"
+# N„o sei se no Python faz tanto sentido se preocupar em "proteger as invariantes do objeto"
 # ou se preocupar com "imutabilidade.
-# Mas de qualquer forma podemos dizer que nessa solu√ß√£o n√£o fica claro para o cliente como
-# a classe espera que seus objetos sejam constru√≠dos.
+# Mas de qualquer forma podemos dizer que nessa soluÁ„o n„o fica claro para o cliente como
+# a classe espera que seus objetos sejam construÌdos.
 # Falta expressividade.
 
 
@@ -214,7 +216,7 @@ invoker.pause = 1
 
 
 
-# Solu√ß√£o 2
+# SoluÁ„o 2
 # Traduzindo o Builder feito no Java
 
 
@@ -230,19 +232,19 @@ class InvokerBuilder(object):
     self.taskName = taskName
     self.task = task
     self.timeout = timeout
-    self.trials = DEFAULT_TRIALS
-    self.pause = DEFAULT_PAUSE
-    self.time_unit = DEFAULT_TIME_UNIT
+    self.trials = self.DEFAULT_TRIALS
+    self.pause = self.DEFAULT_PAUSE
+    self.time_unit = self.DEFAULT_TIME_UNIT
 
-  def trials(trials):
+  def set_trials(trials):
     self.trials = trials
     return self
 
-  def pause(pause):
+  def set_pause(pause):
     self.pause = pause
     return self
 
-  def pause(time_unit):
+  def set_time_unit(time_unit):
     self.time_unit = time_unit
     return self
 
@@ -265,10 +267,10 @@ class InvokerBuilder(object):
 
 
 
-# C√≥digo cliente
+# CÛdigo cliente
 
 task = lambda : 5*4*3*2
-invoker = InvokerBuilder("fatorial", task, 1).trials(3).pause(1).time_unit('min').build()
+invoker = InvokerBuilder("fatorial", task, 1).set_trials(3).set_pause(1).set_time_unit('min').build()
 
 
 
@@ -288,9 +290,9 @@ invoker = InvokerBuilder("fatorial", task, 1).trials(3).pause(1).time_unit('min'
 
 
 
-# Considera√ß√µes
-# funciona, mas... ser√° que isso √© pythonico?
-# ali√°s, interface fluente faz sentido em Python?
+# ConsideraÁıes
+# funciona, mas... ser· que isso È pythonico?
+# ali·s, interface fluente faz sentido em Python?
 # Mas vamos ver outras alternativas!
 
 # From [EFFECTIVE JAVA]:
@@ -324,22 +326,26 @@ invoker = InvokerBuilder("fatorial", task, 1).trials(3).pause(1).time_unit('min'
 
 
 
-# Solu√ß√£o 3
+# SoluÁ„o 3
 # Argumentos opcionais
 
 
 
 class Invoker(object):
 
+  # sera q daria pra usar constantes no init?
+  # help(Invoker) jah mostraria assinatura do metodo com padroes
+  # nao precisa colocar padroes no docstring
+  
   def __init__(self, taskName, task, timeout, trials=1, pause=0, time_unit='sec'):
     """
       Argumentos:
         taskName - nome da tarefa 
-        task - fun√ß√£o a ser executada
+        task - funÁ„o a ser executada
         timeout - tempo limite para uma tentativa, em segundos -- int
-        trials - quantidade de tentativas, em segundos -- int (padr√£o √© 1)
-        pause - pausa entre as tentativas, em segundos -- int (padr√£o √© 0)
-        time_unit - string \in {'sec', 'min'} (padr√£o √© 'sec')
+        trials - quantidade de tentativas, em segundos -- int (padr„o È 1)
+        pause - pausa entre as tentativas, em segundos -- int (padr„o È 0)
+        time_unit - string in ['sec', 'min'] (padr„o È 'sec')
     """
     self.taskName = taskName
     self.task = task
@@ -349,7 +355,7 @@ class Invoker(object):
     self.time_unit = time_unit
 
   def invoke(self):
-    # faz de conta que t√° usando timeout, trials, e pause
+    # faz de conta que t· usando timeout, trials, e pause
     try:
       return self.task()
     except:
@@ -369,7 +375,7 @@ class Invoker(object):
 
 
 
-# C√≥digo cliente
+# CÛdigo cliente
 
 task = lambda : 5*4*3*2
 invoker = InvokerBuilder("fatorial", task, 100, 2, 10)
@@ -388,10 +394,10 @@ invoker = InvokerBuilder("fatorial", task, timeout=1, time_unit='min')
 
 
 
-# Considera√ß√µes
+# ConsideraÁıes
 # Builder sumiu!
-# Seria essa solu√ß√£o mais pythonica?
-# Poder fazer "trials=2" √© um recurso muito legal do python!
+# Seria essa soluÁ„o mais pythonica?
+# Poder fazer "trials=2" È um recurso muito legal do python!
 
 
 
@@ -416,7 +422,7 @@ invoker = InvokerBuilder("fatorial", task, timeout=1, time_unit='min')
 
 
 
-# Solu√ß√£o 4
+# SoluÁ„o 4
 # kwargs!
 
 class Invoker(object):
@@ -429,22 +435,24 @@ class Invoker(object):
     """
       Argumentos:
         taskName - nome da tarefa -- string
-        task - tarefa a ser executada -- uma fun√ß√£o
+        task - tarefa a ser executada -- uma funÁ„o
         timeout - tempo limite para uma tentatvia em segundos -- int
         kwargs:
-            trials - quantidade de tentativas em segundos -- int (padr√£o √© 1)
-            pause - pausa entre as tentativas em segundos -- int (padr√£o √© 0)
-            time_unit - string \in {'sec', 'min'} (padr√£o √© 'sec')
+            trials - quantidade de tentativas em segundos -- int (padr„o È 1)
+            pause - pausa entre as tentativas em segundos -- int (padr„o È 0)
+            time_unit - string \in {'sec', 'min'} (padr„o È 'sec')
     """
     self.taskName = taskName
     self.task = task
     self.timeout = timeout
-    self.trials = kwargs.get('trials', DEFAULT_TRIALS)
-    self.pause = kwargs.get('pause', DEFAULT_PAUSE)
-    self.time_unit = kwargs.get('time_unit', DEFAULT_TIME_UNIT)
+    self.trials = kwargs.pop('trials', DEFAULT_TRIALS)
+    self.pause = kwargs.pop('pause', DEFAULT_PAUSE)
+    self.time_unit = kwargs.pop('time_unit', DEFAULT_TIME_UNIT)
+    if kwargs:
+        raise ValueError("!!!")
 
   def invoke(self):
-    # faz de conta que t√° usando timeout, trials, e pause
+    # faz de conta que t· usando timeout, trials, e pause
     try:
       return self.task()
     except:
@@ -476,10 +484,12 @@ class Invoker(object):
 
 
 
-# C√≥digo cliente
+# CÛdigo cliente
 task = lambda : 5*4*3*2
 invoker = Invoker("fat", task, 100, trials=3, pause=2)
 
+dic = {'trials':3, 'pause':2}
+invoker = Invoker("fat", task, 100, **dic)
 
 
 
@@ -502,12 +512,11 @@ invoker = Invoker("fat", task, 100, trials=3, pause=2)
 
 
 
-
-# Considera√ß√µes
+# ConsideraÁıes
 # Perda de expressividade
-# Documenta√ß√£o fica mais complicada (?)
-# Cliente ficou igual a solu√ß√£o anterior
-# Parece n√£o ter vantagem sobre os argumentos opcionais (nesse caso...)
+# DocumentaÁ„o fica mais complicada (?)
+# Cliente ficou igual a soluÁ„o anterior
+# Parece n„o ter vantagem sobre os argumentos opcionais (nesse caso...)
 
 
 
@@ -524,9 +533,9 @@ invoker = Invoker("fat", task, 100, trials=3, pause=2)
 
 
 
-# Mas h√° casos em que kwargs t√™m vantagem sobre argumentos opcionais.
-# Situa√ß√£o: quando o nome do par√¢metro √© vari√°vel!
-# Exemplo: constru√ß√£o de queries no Django.
+# Mas h· casos em que kwargs tÍm vantagem sobre argumentos opcionais.
+# SituaÁ„o: quando o nome do par‚metro È vari·vel!
+# Exemplo: construÁ„o de queries no Django.
 # Exemplos retirados do Radar Parlamentar: https://github.com/leonardofl/radar_parlamentar
 
 
@@ -546,8 +555,8 @@ Votacao.objects.filter(proposicao__casa_legislativa=casa).filter(data__lte=self.
 
 
 
-# Al√©m de usar o kwargs, a constru√ß√£o de queries do Django parece ser um bom exemplo de Builder.
-# Uma pequena diferen√ßa para o padr√£o: n√£o usa o m√©todo "build()" no final!
+# AlÈm de usar o kwargs, a construÁ„o de queries do Django parece ser um bom exemplo de Builder.
+# Uma pequena diferenÁa para o padr„o: n„o usa o mÈtodo "build()" no final!
 
 
 
@@ -580,7 +589,7 @@ Votacao.objects.filter(proposicao__casa_legislativa=casa).filter(data__lte=self.
 
 # Bibliografia
 # [HEAD FIRST] Eric Freeman & Elisabeth Freeman, Cap 14. Appendix: Leftover Pattern. Em: Head First Design Patterns. O'Reilly. 2004
-# [GUERRA] Eduardo Guerra, Cap 6. Estrat√©gias de Cria√ß√£o de Objetos. Em: "Design Patterns com Java. Projeto Orientado a Objetos guiado por Padr√µes". Casa do C√≥digo. 2013
+# [GUERRA] Eduardo Guerra, Cap 6. EstratÈgias de CriaÁ„o de Objetos. Em: "Design Patterns com Java. Projeto Orientado a Objetos guiado por Padrıes". Casa do CÛdigo. 2013
 # [EFFECTIVE JAVA] Joshua Bloch, Cap 2. Creating and Destroying Objects. Em: "Effective Java", 2nd edition. Addison Wesley. 2008
 
 
