@@ -18,3 +18,5 @@ Transições inválidas são impedidas com o padrão State.
 # Versão STATE_2
 
 Mesma abordagem de STATE_1, mas com novo estado.
+
+Obs: a classe de teste de v0 e v1 são iguais (em statev1 apenas a implementação de DocumentoRepository se altera).
