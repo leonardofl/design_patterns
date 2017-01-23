@@ -3,12 +3,16 @@ package org.leo.statev1;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Test;
 
 public class DocumentoRepositoryTest {
 
+	static AtomicInteger counter = new AtomicInteger();
+
 	DocumentoRepository repository = new DocumentoRepositoryFacade();
+
 	
 	@Test
 	public void shouldEmitirDocumento() {
@@ -21,7 +25,7 @@ public class DocumentoRepositoryTest {
 
 	private Documento novoDocumento() {
 		Documento documento = new Documento();
-		documento.setNumero("1234");
+		documento.setNumero(Integer.toString(counter.getAndIncrement()));
 		documento.setTitular("Fulano");
 		documento.setDate(hoje());
 		return documento;

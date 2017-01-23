@@ -26,7 +26,7 @@ public class StateNovo implements DocumentoRepository {
 
 	@Override
 	public Documento consultar(String numeroDocumento) {
-		throw new UnsupportedOperationException();
+		return repository.consultar(numeroDocumento);
 	}
 
 }

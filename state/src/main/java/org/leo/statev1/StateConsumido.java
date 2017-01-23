@@ -2,6 +2,8 @@ package org.leo.statev1;
 
 public class StateConsumido implements DocumentoRepository {
 
+	private DocumentoRepository repository = new DocumentoRepositoryImpl();
+	
 	@Override
 	public void emitir(Documento documento) {
 		throw new IllegalStateException();
@@ -24,7 +26,7 @@ public class StateConsumido implements DocumentoRepository {
 
 	@Override
 	public Documento consultar(String numeroDocumento) {
-		throw new UnsupportedOperationException();
+		return repository.consultar(numeroDocumento);
 	}
 
 }

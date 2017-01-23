@@ -26,7 +26,7 @@ public class StateEmitido implements DocumentoRepository {
 
 	@Override
 	public Documento consultar(String numeroDocumento) {
-		throw new UnsupportedOperationException();
+		return repository.consultar(numeroDocumento);
 	}
 
 }

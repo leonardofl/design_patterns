@@ -2,9 +2,15 @@ package org.leo.statev1;
 
 public class StateFactory {
 
-	DocumentoRepository getStateFor(Documento documento) {
-		if (documento.getEstado() == null) {
+	private DocumentoDAO documentoDAO = new DocumentoDAO();
+
+	public DocumentoRepository getStateForDocumento(String numeroDocumento) {
+		Documento documento = documentoDAO.consultar(numeroDocumento);
+		if (documento == null) {
 			return new StateNovo();
+		}
+		if (documento.getEstado() == null) {
+			throw new IllegalStateException("Documento " + numeroDocumento + " corrompido.");
 		}
 		switch (documento.getEstado()) {
 		case EMITIDO:
@@ -14,7 +20,7 @@ public class StateFactory {
 		case CONSUMIDO:
 			return new StateConsumido();
 		default:
-			throw new IllegalStateException("Estado " + documento.getEstado() + " desconhecido por StateFcatory.");
+			throw new IllegalArgumentException("Estado " + documento.getEstado() + " desconhecido por StateFcatory.");
 		}
 	}
 
