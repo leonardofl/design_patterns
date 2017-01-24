@@ -6,9 +6,6 @@ import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Test;
-import org.leo.ifv1.Documento;
-import org.leo.ifv1.DocumentoRepository;
-import org.leo.ifv1.EstadoDocumento;
 
 public class DocumentoRepositoryTest {
 
