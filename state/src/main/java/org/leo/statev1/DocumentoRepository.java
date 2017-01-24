@@ -6,7 +6,7 @@ public interface DocumentoRepository {
 
 	void alterar(Documento documento);
 
-	void cancelar(Documento documento);
+	void cancelar(String numeroDocumento);
 	
 	void consumir(Documento documento);
 	

@@ -15,7 +15,7 @@ public class StateCancelado implements DocumentoRepository {
 	}
 
 	@Override
-	public void cancelar(Documento documento) {
+	public void cancelar(String numeroDocumento) {
 		throw new IllegalStateException();
 	}
 

@@ -17,7 +17,8 @@ public class DocumentoRepositoryImpl implements DocumentoRepository {
 	}
 
 	@Override
-	public void cancelar(Documento documento) {
+	public void cancelar(String numeroDocumento) {
+		Documento documento = documentoDAO.consultar(numeroDocumento);
 		documento.setEstado(EstadoDocumento.CANCELADO);
 		documentoDAO.alterar(documento);
 	}

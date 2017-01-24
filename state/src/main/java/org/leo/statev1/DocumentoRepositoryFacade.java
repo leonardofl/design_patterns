@@ -19,8 +19,8 @@ public class DocumentoRepositoryFacade implements DocumentoRepository {
 	}
 
 	@Override
-	public void cancelar(Documento documento) {
-		dependendoDoEstadoDoDocumento(documento.getNumero()).cancelar(documento);
+	public void cancelar(String numeroDocumento) {
+		dependendoDoEstadoDoDocumento(numeroDocumento).cancelar(numeroDocumento);
 	}
 
 	@Override

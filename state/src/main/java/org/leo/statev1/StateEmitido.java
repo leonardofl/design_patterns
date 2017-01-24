@@ -15,8 +15,8 @@ public class StateEmitido implements DocumentoRepository {
 	}
 
 	@Override
-	public void cancelar(Documento documento) {
-		repository.cancelar(documento);
+	public void cancelar(String numeroDocumento) {
+		repository.cancelar(numeroDocumento);
 	}
 
 	@Override

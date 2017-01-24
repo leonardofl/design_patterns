@@ -60,7 +60,7 @@ public class DocumentoRepositoryTest {
 		Documento documento = novoDocumento();
 		repository.gerar(documento);
 		repository.emitir(documento.getNumero());
-		repository.cancelar(documento);
+		repository.cancelar(documento.getNumero());
 		Documento documentoConsultado = repository.consultar(documento.getNumero());
 		assertEquals(documento, documentoConsultado);
 		assertEquals(EstadoDocumento.CANCELADO, documentoConsultado.getEstado());
@@ -106,7 +106,7 @@ public class DocumentoRepositoryTest {
 		repository.gerar(documento);
 		repository.emitir(documento.getNumero());
 		repository.notificarRoubo(documento.getNumero());
-		repository.cancelar(documento);
+		repository.cancelar(documento.getNumero());
 		Documento documentoConsultado = repository.consultar(documento.getNumero());
 		assertEquals(documento, documentoConsultado);
 		assertEquals(EstadoDocumento.CANCELADO, documentoConsultado.getEstado());
@@ -120,7 +120,7 @@ public class DocumentoRepositoryTest {
 	public void shouldNotAlterarDocumentoCancelado() {
 		Documento documento = novoDocumento();
 		repository.emitir(documento.getNumero());
-		repository.cancelar(documento);
+		repository.cancelar(documento.getNumero());
 		documento.setTitular("Novo titular");
 		repository.alterar(documento);
 	}
@@ -139,15 +139,20 @@ public class DocumentoRepositoryTest {
 		Documento documento = novoDocumento();
 		repository.emitir(documento.getNumero());
 		repository.consumir(documento);
-		repository.cancelar(documento);
+		repository.cancelar(documento.getNumero());
 	}
 
 	@Test(expected=IllegalStateException.class)
 	public void shouldNotConsumirDocumentoCancelado() {
 		Documento documento = novoDocumento();
 		repository.emitir(documento.getNumero());
-		repository.cancelar(documento);
+		repository.cancelar(documento.getNumero());
 		repository.consumir(documento);
+	}
+	
+	@Test(expected=IllegalStateException.class)
+	public void shouldNaoCancelarDocumentoNaoExistente() {
+		repository.cancelar("Número inexistente");
 	}
 
 	@Test(expected=IllegalStateException.class)
@@ -180,7 +185,7 @@ public class DocumentoRepositoryTest {
 		Documento documento = novoDocumento();
 		repository.gerar(documento);
 		repository.emitir(documento.getNumero());
-		repository.cancelar(documento);
+		repository.cancelar(documento.getNumero());
 		repository.notificarRoubo(documento.getNumero());
 	}
 

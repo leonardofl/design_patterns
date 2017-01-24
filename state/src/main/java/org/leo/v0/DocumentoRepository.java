@@ -14,7 +14,8 @@ public class DocumentoRepository {
 		documentoDAO.alterar(documento);
 	}
 
-	public void cancelar(Documento documento) {
+	public void cancelar(String numeroDocumento) {
+		Documento documento = documentoDAO.consultar(numeroDocumento);
 		documento.setEstado(EstadoDocumento.CANCELADO);
 		documentoDAO.alterar(documento);
 	}

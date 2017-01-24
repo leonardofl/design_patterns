@@ -49,7 +49,7 @@ public class DocumentoRepositoryTest {
 	public void shouldCancelarDocumento() {
 		Documento documento = novoDocumento();
 		repository.emitir(documento);
-		repository.cancelar(documento);
+		repository.cancelar(documento.getNumero());
 		Documento documentoConsultado = repository.consultar(documento.getNumero());
 		assertEquals(documento, documentoConsultado);
 		assertEquals(EstadoDocumento.CANCELADO, documentoConsultado.getEstado());
@@ -75,7 +75,7 @@ public class DocumentoRepositoryTest {
 	public void shouldNotAlterarDocumentoCancelado() {
 		Documento documento = novoDocumento();
 		repository.emitir(documento);
-		repository.cancelar(documento);
+		repository.cancelar(documento.getNumero());
 		documento.setTitular("Novo titular");
 		repository.alterar(documento);
 	}
@@ -94,14 +94,14 @@ public class DocumentoRepositoryTest {
 		Documento documento = novoDocumento();
 		repository.emitir(documento);
 		repository.consumir(documento);
-		repository.cancelar(documento);
+		repository.cancelar(documento.getNumero());
 	}
 
 	@Test(expected=IllegalStateException.class)
 	public void shouldNotConsumirDocumentoCancelado() {
 		Documento documento = novoDocumento();
 		repository.emitir(documento);
-		repository.cancelar(documento);
+		repository.cancelar(documento.getNumero());
 		repository.consumir(documento);
 	}
 

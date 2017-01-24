@@ -32,9 +32,9 @@ public class DocumentoRepository {
 		}
 	}
 
-	// TODO receber só numeroDocumento
-	public void cancelar(Documento documento) {
-		if (documento.getEstado() == EstadoDocumento.EMITIDO || documento.getEstado() == EstadoDocumento.ROUBADO) {
+	public void cancelar(String numeroDocumento) {
+		Documento documento = documentoDAO.consultar(numeroDocumento);
+		if (documento != null && (documento.getEstado() == EstadoDocumento.EMITIDO || documento.getEstado() == EstadoDocumento.ROUBADO)) {
 			documento.setEstado(EstadoDocumento.CANCELADO);
 			documentoDAO.alterar(documento);
 		} else {

@@ -22,8 +22,9 @@ public class DocumentoRepository {
 		}
 	}
 
-	public void cancelar(Documento documento) {
-		if (documento.getEstado() == EstadoDocumento.EMITIDO) {
+	public void cancelar(String numeroDocumento) {
+		Documento documento = documentoDAO.consultar(numeroDocumento);
+		if (documento != null && documento.getEstado() == EstadoDocumento.EMITIDO) {
 			documento.setEstado(EstadoDocumento.CANCELADO);
 			documentoDAO.alterar(documento);
 		} else {
