@@ -1,47 +1,39 @@
 package org.leo.statev2;
 
-public class StateConsumido implements DocumentoRepository {
+public class StateConsumido implements State {
 
-	private DocumentoRepository repository = new DocumentoRepositoryImpl();
-	
 	@Override
-	public void gerar(Documento documento) {
+	public void tentarGerar(Documento documento) {
 		throw new IllegalStateException();
 	}
 
 	@Override
-	public void emitir(String numeroDocumento) {
+	public void tentarEmitir(String numeroDocumento) {
 		throw new IllegalStateException();
 	}
 
 	@Override
-	public void alterar(Documento documento) {
+	public void tentarAlterar(Documento documento) {
 		throw new IllegalStateException();
 	}
 
 	@Override
-	public void cancelar(String numeroDocumento) {
+	public void tentarCancelar(String numeroDocumento) {
 		throw new IllegalStateException();
 	}
 
 	@Override
-	public void consumir(Documento documento) {
+	public void tentarConsumir(Documento documento) {
 		throw new IllegalStateException();
 	}
 
 	@Override
-	public Documento consultar(String numeroDocumento) {
-		return repository.consultar(numeroDocumento);
-	}
-
-
-	@Override
-	public void notificarRoubo(String numeroDocumento) {
+	public void tentarNotificarRoubo(String numeroDocumento) {
 		throw new IllegalStateException();
 	}
 
 	@Override
-	public void recuperarRoubo(String numeroDocumento) {
+	public void tentarRecuperarRoubo(String numeroDocumento) {
 		throw new IllegalStateException();
 	}
 

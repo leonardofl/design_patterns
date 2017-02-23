@@ -3,49 +3,50 @@ package org.leo.statev2;
 public class DocumentoRepositoryFacade implements DocumentoRepository {
 
 	private StateFactory stateFactory = new StateFactory();
+	private DocumentoRepository repository = new DocumentoRepositoryImpl();
 	
 	@Override
 	public void gerar(Documento documento) {
-		dependendoDoEstadoDoDocumento(documento.getNumero()).gerar(documento);
+		dependendoDoEstadoDoDocumento(documento.getNumero()).tentarGerar(documento);
 	}
 
 	@Override
 	public void emitir(String numeroDocumento) {
-		dependendoDoEstadoDoDocumento(numeroDocumento).emitir(numeroDocumento);
+		dependendoDoEstadoDoDocumento(numeroDocumento).tentarEmitir(numeroDocumento);
 	}
 	
-	private DocumentoRepository dependendoDoEstadoDoDocumento(String numeroDocumento) {
+	private State dependendoDoEstadoDoDocumento(String numeroDocumento) {
 		return stateFactory.getStateForDocumento(numeroDocumento);
 	}
 	
 	@Override
 	public void alterar(Documento documento) {
-		dependendoDoEstadoDoDocumento(documento.getNumero()).alterar(documento);
+		dependendoDoEstadoDoDocumento(documento.getNumero()).tentarAlterar(documento);
 	}
 
 	@Override
 	public void cancelar(String numeroDocumento) {
-		dependendoDoEstadoDoDocumento(numeroDocumento).cancelar(numeroDocumento);
+		dependendoDoEstadoDoDocumento(numeroDocumento).tentarCancelar(numeroDocumento);
 	}
 
 	@Override
 	public void consumir(Documento documento) {
-		dependendoDoEstadoDoDocumento(documento.getNumero()).consumir(documento);
+		dependendoDoEstadoDoDocumento(documento.getNumero()).tentarConsumir(documento);
 	}
 
 	@Override
 	public Documento consultar(String numeroDocumento) {
-		return dependendoDoEstadoDoDocumento(numeroDocumento).consultar(numeroDocumento);
+		return repository.consultar(numeroDocumento);
 	}
 
 	@Override
 	public void notificarRoubo(String numeroDocumento) {
-		dependendoDoEstadoDoDocumento(numeroDocumento).notificarRoubo(numeroDocumento);
+		dependendoDoEstadoDoDocumento(numeroDocumento).tentarNotificarRoubo(numeroDocumento);
 	}
 
 	@Override
 	public void recuperarRoubo(String numeroDocumento) {
-		dependendoDoEstadoDoDocumento(numeroDocumento).recuperarRoubo(numeroDocumento);
+		dependendoDoEstadoDoDocumento(numeroDocumento).tentarRecuperarRoubo(numeroDocumento);
 	}
 
 }
