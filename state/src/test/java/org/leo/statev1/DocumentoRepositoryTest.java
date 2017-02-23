@@ -12,7 +12,6 @@ public class DocumentoRepositoryTest {
 	static AtomicInteger counter = new AtomicInteger();
 
 	DocumentoRepository repository = new DocumentoRepositoryFacade();
-
 	
 	@Test
 	public void shouldEmitirDocumento() {

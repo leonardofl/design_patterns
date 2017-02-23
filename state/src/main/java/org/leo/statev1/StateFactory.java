@@ -4,7 +4,7 @@ public class StateFactory {
 
 	private DocumentoDAO documentoDAO = new DocumentoDAO();
 
-	public DocumentoRepository getStateForDocumento(String numeroDocumento) {
+	public State getStateForDocumento(String numeroDocumento) {
 		Documento documento = documentoDAO.consultar(numeroDocumento);
 		if (documento == null) {
 			return new StateNovo();
